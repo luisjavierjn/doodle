@@ -1,35 +1,41 @@
 package com.doodle.examluis.database.document;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Getter
+@Setter
+@ToString
 @Document(collection = "polls")
 public class Poll {
 
-    String name;
-    int age;
-    String car;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getCar() {
-        return car;
-    }
-
-    public void setCar(String car) {
-        this.car = car;
-    }
+    @Id
+    String id;
+    String adminKey;
+    long latestChange;
+    long initiated;
+    int participantsCount;
+    int inviteesCount;
+    String type;
+    boolean timeZone;
+    int rowConstraint;
+    int columnConstraint;
+    boolean hidden;
+    String preferencesType;
+    String state;
+    String locale;
+    String title;
+    String description;
+    Initiator initiator;
+    Option[] options;
+    String optionsHash;
+    Participant[] participants;
+    Invitees[] invitees;
+    boolean dateText;
+    boolean multiDay;
+    String device;
+    String levels;
 }

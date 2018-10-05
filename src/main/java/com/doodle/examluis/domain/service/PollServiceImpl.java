@@ -1,6 +1,7 @@
 package com.doodle.examluis.domain.service;
 
 import com.doodle.examluis.database.document.Poll;
+import com.doodle.examluis.database.repository.IPollRepository;
 import com.doodle.examluis.domain.dto.PollDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import java.util.stream.Collectors;
 
 @Component("pollService")
 public class PollServiceImpl implements IPollService {
+
+    @Autowired
+    private IPollRepository pollRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -26,17 +30,19 @@ public class PollServiceImpl implements IPollService {
 
     @Override
     public void add(PollDTO aPollDTO) {
-        convertToDocument(aPollDTO);
+        pollRepository.save(convertToDocument(aPollDTO));
     }
 
     @Override
     public void addMulti(List<PollDTO> arrPollDTO) {
-        arrPollDTO.stream().map(this::convertToDocument).collect(Collectors.toList());
+        List<Poll> arrPoll = arrPollDTO.stream().map(this::convertToDocument).collect(Collectors.toList());
+        pollRepository.saveAll(arrPoll);
     }
 
     @Override
     public Collection<PollDTO> get() {
-        return null;
+        List<Poll> arrPoll = pollRepository.findAll();
+        return arrPoll.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -51,8 +57,6 @@ public class PollServiceImpl implements IPollService {
 
     @Override
     public void del() {
-
+        pollRepository.deleteAll();
     }
-
-
 }

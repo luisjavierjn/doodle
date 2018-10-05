@@ -1,6 +1,7 @@
 package com.doodle.examluis;
 
 import com.doodle.examluis.controller.PollController;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.nio.charset.Charset;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -52,7 +54,7 @@ public class ExamLuisApplicationTests {
 	@Test
 	public void itShouldSaveOnePollWithAJsonFile() throws Exception {
 		String url = API_POLLS;
-		String requestJson = "{ \"name\":\"John\", \"age\":30, \"car\":null }";
+		String requestJson = "{ \"id\":\"John\", \"inviteesCount\":30, \"adminKey\":null }";
 
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
 				.content(requestJson))
@@ -62,7 +64,7 @@ public class ExamLuisApplicationTests {
 	@Test
 	public void itShouldSaveMultiPollsWithAJsonFile() throws Exception {
 		String url = API_POLLS_ADD_MULTI;
-		String requestJson = "[ { \"name\":\"John\", \"age\":30, \"car\":null } ]";
+		String requestJson = "[ { \"id\":\"John\", \"inviteesCount\":30, \"adminKey\":null } ]";
 
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
 				.content(requestJson))
@@ -91,5 +93,11 @@ public class ExamLuisApplicationTests {
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
 				.param("aCriteria", "word1 word2 word3"))
 				.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@After
+	public void itShouldDeleteAll() throws Exception {
+		mockMvc.perform(delete(API_POLLS).contentType(APPLICATION_JSON_UTF8))
+				.andExpect(MockMvcResultMatchers.status().isNoContent());
 	}
 }

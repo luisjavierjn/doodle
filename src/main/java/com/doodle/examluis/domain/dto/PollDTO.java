@@ -1,36 +1,43 @@
 package com.doodle.examluis.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.io.Serializable;
 
+@Getter
+@Setter
+@ToString
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class PollDTO implements Serializable {
 
-    private static final long serialVersionUID = 1717118003848939112L;
+    private static final long serialVersionUID = 4296021399269863637L;
 
-    String name;
-    int age;
-    String car;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getCar() {
-        return car;
-    }
-
-    public void setCar(String car) {
-        this.car = car;
-    }
+    String id;
+    String adminKey;
+    long latestChange;
+    long initiated;
+    int participantsCount;
+    int inviteesCount;
+    String type;
+    boolean timeZone;
+    int rowConstraint;
+    int columnConstraint;
+    boolean hidden;
+    String preferencesType;
+    String state;
+    String locale;
+    String title;
+    String description;
+    InitiatorDTO initiator;
+    OptionDTO[] options;
+    String optionsHash;
+    ParticipantDTO[] participants;
+    InviteesDTO[] invitees;
+    boolean dateText;
+    boolean multiDay;
+    String device;
+    String levels;
 }
