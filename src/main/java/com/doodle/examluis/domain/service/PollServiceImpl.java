@@ -10,13 +10,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -63,7 +58,7 @@ public class PollServiceImpl implements IPollService {
     }
 
     @Override
-    public Collection<PollDTO> getFilterByCreationDate(String aCreationDate) {
+    public Collection<PollDTO> getPollsInitiatedSince(String aCreationDate) {
         Date date = null;
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -12,7 +12,7 @@ public interface IPollService {
 
     Collection<PollDTO> get();
 
-    Collection<PollDTO> getFilterByCreationDate(String aCreationDate);
+    Collection<PollDTO> getPollsInitiatedSince(String aCreationDate);
 
     Collection<PollDTO> getTextSearch(String aCriteria);
 
