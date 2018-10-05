@@ -1,10 +1,9 @@
-package com.doodle.examluis.domain.dto;
+package com.doodle.examluis.database.document;
 
-import java.io.Serializable;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class PollDTO implements Serializable {
-
-    private static final long serialVersionUID = 1717118003848939112L;
+@Document(collection = "polls")
+public class Poll {
 
     String name;
     int age;
