@@ -5,6 +5,9 @@ import com.doodle.examluis.database.repository.IPollRepository;
 import com.doodle.examluis.domain.dto.PollDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -20,6 +23,9 @@ public class PollServiceImpl implements IPollService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public PollDTO convertToDto(Poll aPoll) {
         return modelMapper.map(aPoll, PollDTO.class);
@@ -48,7 +54,10 @@ public class PollServiceImpl implements IPollService {
 
     @Override
     public Collection<PollDTO> getFilterByCreationDate(String aCreationDate) {
-        return null;
+        Query query = new Query();
+        query.addCriteria(Criteria.where("adminKey").is("2cxgkvk9"));
+        List<Poll> arrPoll = mongoTemplate.find(query, Poll.class);
+        return arrPoll.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override

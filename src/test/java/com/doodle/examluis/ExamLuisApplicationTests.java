@@ -106,7 +106,7 @@ public class ExamLuisApplicationTests {
 		String url = API_POLLS_TEXT_SEARCH;
 
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
-				.param("aCriteria", "word1 word2 word3"))
+				.param("aCriteria", "r44d7piq sp4xfrkr en_US"))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 
