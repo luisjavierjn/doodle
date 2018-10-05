@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component("pollService")
 public class PollServiceImpl implements IPollService {
@@ -52,7 +53,8 @@ public class PollServiceImpl implements IPollService {
 
     @Override
     public Collection<PollDTO> getTextSearch(String aCriteria) {
-        return null;
+        Stream<Poll> arrPoll = pollRepository.findPoll(aCriteria,pollRepository.TEXT_SCORE_SORT);
+        return arrPoll.map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override

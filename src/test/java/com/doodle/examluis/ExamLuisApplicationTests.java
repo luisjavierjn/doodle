@@ -1,6 +1,10 @@
 package com.doodle.examluis;
 
 import com.doodle.examluis.controller.PollController;
+import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -39,32 +44,42 @@ public class ExamLuisApplicationTests {
 
 	private MockMvc mockMvc;
 
+	private String requestJson;
+	private String oneObjJson;
+
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders
 				.standaloneSetup(pollController)
 				.build();
-	}
 
-	@Test
-	public void contextLoads() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		try {
+			requestJson = IOUtils.toString(classLoader.getResourceAsStream("doodle.json"));
+			JSONParser jsonParser = new JSONParser();
+			Object obj = jsonParser.parse(requestJson);
+			JSONArray pollList = (JSONArray)obj;
+			oneObjJson = pollList.get(0).toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void itShouldSaveOnePollWithAJsonFile() throws Exception {
 		String url = API_POLLS;
-		String requestJson = "{ \"id\":\"John\", \"inviteesCount\":30, \"adminKey\":null }";
 
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
-				.content(requestJson))
+				.content(oneObjJson))
 				.andExpect(MockMvcResultMatchers.status().isCreated());
 	}
 
 	@Test
 	public void itShouldSaveMultiPollsWithAJsonFile() throws Exception {
 		String url = API_POLLS_ADD_MULTI;
-		String requestJson = "[ { \"id\":\"John\", \"inviteesCount\":30, \"adminKey\":null } ]";
 
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
 				.content(requestJson))
