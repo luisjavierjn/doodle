@@ -41,7 +41,7 @@ public class PollController {
         return new ResponseEntity<>(arrPollDTO, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/filterByCreationDate", method = RequestMethod.POST)
+    @RequestMapping(value = "/initiatedSince", method = RequestMethod.POST)
     public ResponseEntity<Collection<PollDTO>> getFilterByCreationDate(@RequestParam String aCreationDate) {
         Collection<PollDTO> arrPollDTO = pollService.getFilterByCreationDate(aCreationDate);
         return new ResponseEntity<>(arrPollDTO, HttpStatus.OK);

@@ -36,7 +36,7 @@ public class ExamLuisApplicationTests {
 
 	public static final String API_POLLS = "/doodlepolls";
 	public static final String API_POLLS_ADD_MULTI = "/doodlepolls/addMulti";
-	public static final String API_POLLS_FILTER_BY_CREATION_DATE = "/doodlepolls/filterByCreationDate";
+	public static final String API_POLLS_FILTER_BY_CREATION_DATE = "/doodlepolls/initiatedSince";
 	public static final String API_POLLS_TEXT_SEARCH = "/doodlepolls/textSearch";
 
 	@Autowired
@@ -97,7 +97,7 @@ public class ExamLuisApplicationTests {
 		String url = API_POLLS_FILTER_BY_CREATION_DATE;
 
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
-				.param("aCreationDate", "25/01/1979"))
+				.param("aCreationDate", "2017-01-25"))
 				.andExpect(MockMvcResultMatchers.status().isOk());
 	}
 

@@ -10,8 +10,18 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -54,8 +64,18 @@ public class PollServiceImpl implements IPollService {
 
     @Override
     public Collection<PollDTO> getFilterByCreationDate(String aCreationDate) {
+        Date date = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            date = sdf.parse(aCreationDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(!Optional.ofNullable(date).isPresent()) {
+            return new ArrayList<>();
+        }
         Query query = new Query();
-        query.addCriteria(Criteria.where("adminKey").is("2cxgkvk9"));
+        query.addCriteria(Criteria.where("initiated").gt(date.getTime()));
         List<Poll> arrPoll = mongoTemplate.find(query, Poll.class);
         return arrPoll.stream().map(this::convertToDto).collect(Collectors.toList());
     }
