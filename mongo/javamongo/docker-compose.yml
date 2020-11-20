@@ -1,0 +1,19 @@
+version: '3.1'
+
+services:
+  springboot:
+    image: exam-luis-image
+    container_name: exam-luis-container
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      - MONGO_URI=mongodb://spring-demo-mongo/doodle
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    container_name: spring-demo-mongo
+    volumes:
+      - /home/exam/mongo_data:/data/db
